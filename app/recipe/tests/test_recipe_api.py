@@ -62,7 +62,6 @@ class PublicRecipeAPITests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-
 class PrivateRecipeAPITests(TestCase):
     """Test authenticated API requests."""
 
@@ -85,7 +84,10 @@ class PrivateRecipeAPITests(TestCase):
 
     def test_recipe_list_limited_to_user(self):
         """Test list of recipes is limited to authenticated user."""
-        other_user = create_user(email='other@example.com', password='password123')
+        other_user = create_user(
+            email='other@example.com',
+            password='password123'
+        )
         create_recipe(user=other_user)
         create_recipe(user=self.user)
 
@@ -170,7 +172,7 @@ class PrivateRecipeAPITests(TestCase):
         new_user = create_user(email='user2@example.com', password='test123')
         recipe = create_recipe(user=self.user)
 
-        payload =  {'user': new_user.id}
+        payload = {'user': new_user.id}
         url = detail_url(recipe.id)
         self.client.patch(url, payload)
 
@@ -219,7 +221,6 @@ class PrivateRecipeAPITests(TestCase):
                 user=self.user,
             ).exists()
             self.assertTrue(exists)
-
 
     def test_create_recipe_with_existing_tags(self):
         """Test creating a recipe with existing tag."""
